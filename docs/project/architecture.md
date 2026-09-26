@@ -1,73 +1,73 @@
 # Architecture
 
-> High-level system architecture. Update this file when the project grows or when major modules are added.
-
 ## Overview
 
-This project follows a clean separation between:
+`lynn.stv.pm` is the character standard for Lynn: identity, wardrobe, art book, and the UI, sticker and PV specifications. It is a pnpm workspace with four packages:
 
-- **Frontend** — structured with [Feature-Sliced Design (FSD)](../frontend/README.md).
-- **Backend** — structured with [Domain-Driven Design (DDD)](../backend/README.md) layered architecture.
-
-The two sides communicate through well-defined contracts. The backend exposes the domain through adapters in the `interfaces` layer; the frontend consumes those contracts in the `features` and `entities` layers.
-
-## Context diagram
+| Package           | Path                  | Role                                                                                                           |
+| ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@lynn/tokens`    | `packages/tokens/`    | Single source of design tokens (ramps, semantic colors, type, space, radius, elevation, motion) and their CSS. |
+| `@lynn/contracts` | `packages/contracts/` | API route constants and DTO types shared by backend and frontend. Types only.                                  |
+| `@lynn/backend`   | `backend/`            | Hono HTTP API, DDD layers, serves the built SPA in production.                                                 |
+| `@lynn/frontend`  | `frontend/`           | Vite + React SPA, Feature-Sliced Design.                                                                       |
 
 ```text
-+-----------+        HTTP / events        +-----------------------------+
-|  Frontend |  <------------------------->  |  Backend interfaces layer   |
-|   (FSD)   |                             |  (controllers / adapters)   |
-+-----------+                             +-----------------------------+
-                                                      |
-                                                      v
-+-----------+                             +-----------------------------+
-|   User    |                             |  Application layer          |
-|           |                             |  (use cases / services)     |
-+-----------+                             +-----------------------------+
-                                                      |
-                                                      v
-                                          +-----------------------------+
-                                          |  Domain layer               |
-                                          |  (entities / value objects) |
-                                          +-----------------------------+
-                                                      ^
-                                                      |
-                                          +-----------------------------+
-                                          |  Infrastructure layer       |
-                                          |  (DB / external services)   |
-                                          +-----------------------------+
+                    @lynn/tokens ───────────────┐
+                         │                      │
+   infrastructure/design-system adapter    app/styles/inject-tokens (CSS vars)
+                         │                      │
+Browser ──HTTP──▶ interfaces/http ──▶ application ──▶ domain      frontend (FSD)
+   ▲              (Hono, zod)       (use cases)     (entities,       │
+   │                   │                             value objects)  │ features/*/api
+   │                   └──▶ infrastructure (content records,         │   └─ shared/api (fetch + envelope)
+   │                        in-memory repositories, logger)          │
+   └───────────────────────── /api/v1/* (@lynn/contracts DTOs) ◀─────┘
 ```
+
+## Content flow
+
+1. Content is authored as typed records in `backend/src/infrastructure/content/*.content.ts`.
+2. In-memory repositories map records to domain aggregates at startup. Invalid content (bad hex, missing alt text, wrong frame count, two canonical outfits) fails fast with a `DomainError`.
+3. Token-bound swatches (`token: '--lynn-ribbon'`) resolve their hex from `@lynn/tokens`, so content never duplicates a color value.
+4. Application services map aggregates to `@lynn/contracts` DTOs. Interfaces wrap them in the API envelope.
+5. Frontend `features/*/api` query the API through `shared/api` and hand DTO-shaped entities to widgets.
 
 ## Module boundaries
 
-| Module | Responsibility | Example |
-|--------|----------------|---------|
-| Frontend `app` | Application setup, providers, routing entry | bootstrapping the SPA |
-| Frontend `pages` | Page composition and routing parameter handling | `/orders` page |
-| Frontend `widgets` | Self-contained UI blocks composed of features | order summary card |
-| Frontend `features` | End-to-end user scenarios | place order, cancel order |
-| Frontend `entities` | Domain data and rules | `Order`, `User` |
-| Frontend `shared` | Reusable primitives and utilities | button, date formatter |
-| Backend `interfaces` | Transport adapters | HTTP controller |
-| Backend `application` | Use-case orchestration | `PlaceOrderService` |
-| Backend `domain` | Business rules | `Order`, `OrderStatus` |
-| Backend `infrastructure` | Concrete implementations | repository using PostgreSQL |
+| Module                   | Responsibility                                                           |
+| ------------------------ | ------------------------------------------------------------------------ |
+| Frontend `app`           | Entry, providers (query client, next-themes, motion config), router.     |
+| Frontend `pages`         | One per route; composes widgets, reads query state.                      |
+| Frontend `widgets`       | Page blocks: drawing sheet, trait sheet, wardrobe stage, token catalog.  |
+| Frontend `features`      | Scenarios with their API: explore wardrobe, compose a sticker prompt.    |
+| Frontend `entities`      | DTO-backed types and pure helpers (trait grouping, bezier sampling).     |
+| Frontend `shared`        | i18n, config, API client, beUI adapters, the blueprint figure.           |
+| Backend `interfaces`     | Hono routes, zod input validation, envelope, error mapping, request log. |
+| Backend `application`    | Use cases returning contract DTOs; `Logger` port.                        |
+| Backend `domain`         | Aggregates, value objects, invariants, contrast domain service.          |
+| Backend `infrastructure` | Content records, repositories, token adapter, env, JSON logger.          |
+
+Boundaries are enforced by ESLint (`eslint.config.js`): FSD layer direction, same-layer slice isolation, public-API-only imports, and DDD dependency direction with framework-free `domain`.
+
+## Technology
+
+- Runtime: Node.js 22 (`.nvmrc`), pnpm 9 workspaces.
+- Frontend: React 19, Vite 8, React Router 8 (lazy route chunks), TanStack Query 5, Motion 13, beUI components on Tailwind CSS 4, CSS Modules for page layout.
+- Backend: Hono 4 on `@hono/node-server`, zod 4, bundled by tsup into a single ESM file.
+- Persistence: none. Content is versioned in the repository; repositories are in-memory.
+- Hosting: one container (`deploy/docker/Dockerfile`) serving API and SPA.
+
+## Exceptions to the default rules
+
+These are deliberate and approved:
+
+- **Vendored beUI.** `frontend/src/shared/ui/beui/` holds beUI registry components copied verbatim. They import helpers through the `@/` alias, which points at that folder only. The folder is excluded from lint and formatting. See [ADR 0002](../decisions/0002-beui-component-library.md).
+- **Frontend TypeScript flags.** `exactOptionalPropertyTypes` and `noUncheckedIndexedAccess` are off in `frontend/tsconfig.json` because the vendored components and React typings do not satisfy them. The backend and packages keep both on.
+- **Application DTOs are the wire contract.** `application/` returns `@lynn/contracts` types directly instead of defining a parallel DTO layer.
 
 ## Cross-cutting concerns
 
-- **Authentication / authorization** — document the chosen strategy here once it is decided.
-- **Error handling** — both sides must use the contract defined in [`backend/api-conventions.md`](../backend/api-conventions.md).
-- **Logging and observability** — see [`backend/logging.md`](../backend/logging.md).
-- **Validation** — backend validates at the boundary; frontend validates for immediate UX feedback, but the backend is the source of truth.
-
-## Technology-stack placeholders
-
-Replace these with real decisions:
-
-- Runtime: `__RUNTIME__`
-- Frontend framework: `__FRONTEND_FRAMEWORK__`
-- Backend framework: `__BACKEND_FRAMEWORK__`
-- Database: `__DATABASE__`
-- Cache: `__CACHE__`
-- Message broker: `__MESSAGE_BROKER__`
-- Hosting: `__HOSTING__`
+- **Theming.** `data-theme` on `<html>` (`light` whiteprint, `dark` blueprint). `index.html` resolves it before paint; `next-themes` owns it afterwards.
+- **Errors.** Envelope and codes in [`backend/api-conventions.md`](../backend/api-conventions.md).
+- **Logging.** One JSON line per request with a correlation id; see [`backend/logging.md`](../backend/logging.md).
+- **Validation.** zod at the HTTP boundary, invariants in the domain.

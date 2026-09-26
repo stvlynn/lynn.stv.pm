@@ -1,0 +1,9 @@
+dist
+node_modules
+pnpm-lock.yaml
+.claude
+.agents
+frontend/public
+frontend/src/shared/ui/beui
+frontend/src/shared/ui/blueprint/lineart.ts
+frontend/scripts

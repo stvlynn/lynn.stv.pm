@@ -1,0 +1,5 @@
+.page {
+  width: min(100%, 76rem);
+  margin-inline: auto;
+  padding: 0 clamp(var(--space-4), 4vw, var(--space-12)) var(--space-24);
+}

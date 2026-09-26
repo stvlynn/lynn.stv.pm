@@ -1,0 +1,110 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.drawing {
+  position: sticky;
+  top: var(--space-6);
+  height: min(86dvh, 60rem);
+  border-radius: var(--radius-2xl);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.hint {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.groups {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.part {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-blueprint-line);
+}
+
+.list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trait {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: background-color var(--duration-quick) var(--ease-out);
+}
+
+.trait[data-active='true'] {
+  background: var(--color-accent-soft);
+}
+
+.trait:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.number {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.2rem;
+}
+
+.trait[data-active='true'] .number {
+  color: var(--color-accent);
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.detail {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-small-size);
+}
+
+.chip {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink-950) 14%, transparent);
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .drawing {
+    position: relative;
+    top: 0;
+    height: 70dvh;
+  }
+}

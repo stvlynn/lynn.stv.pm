@@ -16,7 +16,7 @@ This document defines how UI is written in this project. The goal is a consisten
 // ✅ Good
 import { t } from 'shared/i18n';
 
-<Button>{t('order.submit')}</Button>
+<Button>{t('order.submit')}</Button>;
 ```
 
 ```tsx
@@ -81,3 +81,8 @@ Do not introduce a second styling system just to apply a polish fix. Express the
 - Use semantic HTML (`button`, `a`, `label`, `nav`, `main`).
 - Every interactive element must have an accessible name.
 - Do not build fake buttons or links with `div` + click handlers.
+
+## Where copy lives in this project
+
+- **Interface strings** (navigation, labels, buttons, empty states) live in `frontend/src/shared/i18n/en.ts` and are read with `t('key')`.
+- **Content** (character traits, outfit garments, artwork captions, rules) lives in the backend content records and arrives through the API. Never restate it in the frontend.

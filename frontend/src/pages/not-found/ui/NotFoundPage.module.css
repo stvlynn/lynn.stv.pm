@@ -1,0 +1,22 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(10rem, 18rem);
+  gap: var(--space-8);
+  align-items: center;
+  min-height: 80dvh;
+}
+
+.drawing {
+  height: 70dvh;
+  opacity: 0.8;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .drawing {
+    display: none;
+  }
+}

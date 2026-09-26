@@ -13,19 +13,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup runtime
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          cache: pnpm
 
       - name: Install dependencies
-        run: echo 'Replace with install command'
+        run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: echo 'Replace with lint command'
+      - name: Typecheck, lint, format, test, docs
+        run: pnpm check
 
-      - name: Type check
-        run: echo 'Replace with typecheck command'
-
-      - name: Test
-        run: echo 'Replace with test command'
+      - name: Build
+        run: pnpm build

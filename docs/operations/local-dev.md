@@ -1,43 +1,49 @@
 # Local Development
 
-> How to set up and run the project locally.
-
 ## Prerequisites
 
-- Runtime: `__RUNTIME_VERSION__`
-- Package manager: `__PACKAGE_MANAGER__`
-- Database: `__DATABASE__`
-- Cache: `__CACHE__`
+- Node.js 22 (`.nvmrc`)
+- pnpm 9 (`corepack enable`)
+
+No database, cache or broker: content ships in the repository.
 
 ## Setup
 
-1. Clone the repository.
-2. Copy `.env.example` to `.env` and fill in values.
-3. Install dependencies: `__INSTALL_COMMAND__`
-4. Run database migrations: `__MIGRATE_COMMAND__`
-5. Start the backend: `__START_BACKEND__`
-6. Start the frontend: `__START_FRONTEND__`
+```sh
+pnpm install
+pnpm dev          # backend on :8787 (tsx watch) + frontend on :5173 (Vite)
+```
+
+Vite proxies `/api` to the backend. Media under `frontend/public/media` is served by Vite in development and by the backend in production.
 
 ## Environment variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_URL` | yes | Database connection string. |
-| `PORT` | no | Port for the backend server. Defaults to `3000`. |
-| `LOG_LEVEL` | no | Log level. Defaults to `info`. |
+| Variable     | Required | Default   | Description                                              |
+| ------------ | -------- | --------- | -------------------------------------------------------- |
+| `PORT`       | no       | `8787`    | Backend port.                                            |
+| `HOST`       | no       | `0.0.0.0` | Backend bind address.                                    |
+| `LOG_LEVEL`  | no       | `info`    | `debug`, `info`, `warn` or `error`.                      |
+| `STATIC_DIR` | no       | unset     | Directory of the built frontend. Set in production only. |
 
-## Running tests
-
-```sh
-__TEST_COMMAND__
-```
-
-## Linting and formatting
+## Checks
 
 ```sh
-__LINT_COMMAND__
+pnpm check        # typecheck + lint + format check + tests + doc links
+pnpm build        # frontend (Vite) then backend (tsup)
+pnpm start        # run the built backend (set STATIC_DIR=../frontend/dist to serve the SPA)
 ```
+
+## Regenerating the drawing-sheet figure
+
+Requires `potrace` and Python with Pillow and svgpathtools:
+
+```sh
+python3 frontend/scripts/lineart/vectorize.py
+```
+
+Re-check `traitAnchors` in `frontend/src/shared/ui/blueprint/figure.ts` afterwards.
 
 ## Common issues
 
-Document common local-development issues here as they are discovered.
+- **Animations never play on first load.** Look for `initial={false}` on an ancestor `AnimatePresence`.
+- **A beUI component looks unstyled.** Its classes must be generated: `app/styles/tailwind.css` scans `shared/ui/beui` with `@source`; add another `@source` if components move.

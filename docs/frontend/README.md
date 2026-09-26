@@ -11,6 +11,7 @@ This section defines how the frontend is organized using **Feature-Sliced Design
 - [`public-api.md`](public-api.md) — public API and re-export rules.
 - [`import-rules.md`](import-rules.md) — cross-layer and cross-slice import rules.
 - [`ui-patterns.md`](ui-patterns.md) — semantic styling, no hardcoded copy, no redundant copy.
+- [`design-system.md`](design-system.md) — tokens, beUI components, the drawing sheet figure and motion.
 - [`../quality/agent-skills.md`](../quality/agent-skills.md) — Agent Skills for UI craft, motion, and anti-slop.
 
 ## Quick start

@@ -1,0 +1,99 @@
+.canvasLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.diagram {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.field {
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.5;
+}
+
+.safe {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 8 6;
+}
+
+.dim {
+  fill: none;
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.2;
+}
+
+.dimText {
+  fill: var(--color-blueprint-line);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  margin: 0;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.specs dt,
+.specs dd {
+  margin: 0;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.specs dt {
+  padding-right: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.row {
+  display: contents;
+}
+
+.summary {
+  margin: 0 0 var(--space-6);
+  font-size: var(--type-lead-size);
+  line-height: var(--type-lead-leading);
+}
+
+.chip {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: var(--space-2);
+  vertical-align: -0.1rem;
+  border-radius: var(--radius-xs);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink-950) 14%, transparent);
+}
+
+.channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.license {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 860px) {
+  .canvasLayout {
+    grid-template-columns: 1fr;
+  }
+}

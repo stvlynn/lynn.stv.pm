@@ -1,23 +1,25 @@
-.PHONY: check test lint format docs deploy help
+.PHONY: dev build check test lint format docs help
 
-check: ## Run all quality checks (placeholder)
-	@echo "Replace this with: typecheck + lint + test + build"
-	@npm run check
+dev: ## Run API and frontend with hot reload
+	@pnpm dev
 
-test: ## Run tests (placeholder)
-	@npm run test
+build: ## Build frontend and backend bundles
+	@pnpm build
 
-lint: ## Run linter (placeholder)
-	@npm run lint
+check: ## Typecheck, lint, format check, tests and doc links
+	@pnpm check
 
-format: ## Run formatter (placeholder)
-	@npm run format
+test: ## Run all test suites
+	@pnpm test
 
-docs: ## Validate documentation links (placeholder)
-	@npm run docs:check
+lint: ## Run ESLint (includes FSD and DDD boundary rules)
+	@pnpm lint
 
-deploy: ## Deploy the project (placeholder)
-	@echo "See deploy/README.md for deployment options"
+format: ## Format with Prettier
+	@pnpm format
+
+docs: ## Validate documentation links
+	@pnpm docs:check
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'

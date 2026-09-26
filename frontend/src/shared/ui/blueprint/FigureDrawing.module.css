@@ -1,0 +1,106 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.lineart {
+  fill: var(--color-figure-line);
+}
+
+.glasses {
+  fill: none;
+  stroke: var(--color-figure-line);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.scanline {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px var(--color-accent));
+}
+
+.construction {
+  fill: none;
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.2;
+}
+
+.centerline {
+  fill: none;
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.2;
+  stroke-dasharray: 36 10 4 10;
+  opacity: 0.7;
+}
+
+.tick {
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.4;
+}
+
+.dimText,
+.code,
+.label {
+  paint-order: stroke;
+  stroke: var(--color-bg);
+  stroke-width: 8px;
+  stroke-linejoin: round;
+}
+
+.dimText,
+.code {
+  fill: var(--color-blueprint-line);
+  font-family: var(--font-mono);
+  font-size: 19px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.label {
+  fill: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 36px;
+}
+
+.leader {
+  fill: none;
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.3;
+  transition:
+    stroke var(--duration-quick) var(--ease-out),
+    stroke-width var(--duration-quick) var(--ease-out);
+}
+
+.marker {
+  fill: var(--color-bg);
+  stroke: var(--color-blueprint-line);
+  stroke-width: 1.6;
+}
+
+.callout {
+  cursor: default;
+}
+
+.callout[data-active='true'] .leader {
+  stroke: var(--color-accent);
+  stroke-width: 2.4;
+}
+
+.callout[data-active='true'] .marker {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.callout[data-active='true'] .label {
+  fill: var(--color-accent);
+}
+
+.pulse {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
