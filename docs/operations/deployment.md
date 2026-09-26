@@ -21,6 +21,17 @@ to `pnpm install --frozen-lockfile && pnpm build`, and the deploy command to
 `pnpm exec wrangler deploy`. The dashboard Worker name must match the Wrangler
 configuration name.
 
+## Smoke test
+
+After deploying, check both the static site and the API:
+
+```sh
+curl -f https://lynn.stv.pm/
+curl -f https://lynn.stv.pm/character/
+curl -f https://lynn.stv.pm/health
+curl -f https://lynn.stv.pm/api/v1/character
+```
+
 ## Container target
 
 One container runs the Hono backend, which serves `/api/v1/*`, `/health`, `/media/*`, hashed `/assets/*` and the SPA with a fallback to `index.html` for client routes.
