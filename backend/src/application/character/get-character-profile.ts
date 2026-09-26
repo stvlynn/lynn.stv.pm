@@ -9,7 +9,6 @@ export class GetCharacterProfile {
     const character = await this.characters.get();
     return {
       name: character.name,
-      nameNative: character.nameNative,
       tagline: character.tagline,
       summary: character.summary,
       credits: character.credits.map((credit) => ({ ...credit })),

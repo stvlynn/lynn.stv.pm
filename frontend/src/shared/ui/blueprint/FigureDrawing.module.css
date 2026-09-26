@@ -47,15 +47,18 @@
 .label {
   paint-order: stroke;
   stroke: var(--color-bg);
-  stroke-width: 8px;
   stroke-linejoin: round;
+}
+
+.dimText {
+  stroke-width: 8px;
+  font-size: 19px;
 }
 
 .dimText,
 .code {
   fill: var(--color-blueprint-line);
   font-family: var(--font-mono);
-  font-size: 19px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -63,7 +66,6 @@
 .label {
   fill: var(--color-text);
   font-family: var(--font-display);
-  font-size: 36px;
 }
 
 .leader {

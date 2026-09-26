@@ -1,4 +1,4 @@
-import { LINEART_HEIGHT } from './lineart';
+import { LINEART_HEIGHT, LINEART_PATHS } from './lineart';
 
 /**
  * Geometry of the front-elevation line drawing, in figure units (the traced
@@ -38,6 +38,25 @@ export interface TraitAnchor {
   readonly side: CalloutSide;
 }
 
+export interface FigureGeometry {
+  readonly id: string;
+  readonly paths: readonly string[];
+  readonly glasses: readonly string[];
+  readonly anchors: Readonly<Record<string, TraitAnchor>>;
+  readonly headTop: number;
+  readonly chin: number;
+  readonly centerX: number;
+  readonly hem: { readonly left: number; readonly right: number; readonly y: number };
+  readonly silhouetteExtras?: readonly string[];
+  readonly colorImage?: {
+    readonly src: string;
+    readonly x: number;
+    readonly y: number;
+    readonly width: number;
+    readonly height: number;
+  };
+}
+
 /** Where each identity trait (by API trait id) sits on the drawing. */
 export const traitAnchors: Readonly<Record<string, TraitAnchor>> = {
   beret: { x: 150, y: 30, side: 'left' },
@@ -54,4 +73,15 @@ export const traitAnchors: Readonly<Record<string, TraitAnchor>> = {
   skirt: { x: 58, y: 740, side: 'left' },
   socks: { x: 202, y: 1334, side: 'left' },
   loafers: { x: 318, y: 1420, side: 'right' },
+};
+
+export const frontFigure: FigureGeometry = {
+  id: 'front',
+  paths: LINEART_PATHS,
+  glasses: GLASSES_PATHS,
+  anchors: traitAnchors,
+  headTop: HEAD_TOP,
+  chin: CHIN,
+  centerX: CENTER_X,
+  hem: HEM,
 };

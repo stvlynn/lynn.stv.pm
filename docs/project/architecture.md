@@ -55,7 +55,8 @@ Boundaries are enforced by ESLint (`eslint.config.js`): FSD layer direction, sam
 - Frontend: React 19, Vite 8, React Router 8 (lazy route chunks), TanStack Query 5, Motion 13, beUI components on Tailwind CSS 4, CSS Modules for page layout.
 - Backend: Hono 4 on `@hono/node-server`, zod 4, bundled by tsup into a single ESM file.
 - Persistence: none. Content is versioned in the repository; repositories are in-memory.
-- Hosting: one container (`deploy/docker/Dockerfile`) serving API and SPA.
+- Hosting: a Cloudflare Worker serving the Hono API with Workers Static Assets
+  serving the SPA; the Docker image remains available for container hosting.
 
 ## Exceptions to the default rules
 

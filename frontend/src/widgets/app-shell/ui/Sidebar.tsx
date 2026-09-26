@@ -12,7 +12,7 @@ export function Sidebar() {
         <span className={styles.wordmark}>{t('brand.wordmark')}</span>
         <span className={styles.standard}>{t('brand.standard')}</span>
       </Link>
-      <NavigationList layoutId="sidebar-indicator" />
+      <NavigationList />
       <div className={styles.footer}>
         <ThemeToggle />
       </div>

@@ -1,9 +1,11 @@
 dist
 node_modules
+.wrangler
 pnpm-lock.yaml
 .claude
 .agents
 frontend/public
 frontend/src/shared/ui/beui
 frontend/src/shared/ui/blueprint/lineart.ts
+frontend/src/shared/ui/blueprint/generated
 frontend/scripts

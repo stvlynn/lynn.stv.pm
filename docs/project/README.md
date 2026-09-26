@@ -8,15 +8,17 @@ This section describes what the site is, who it serves, and how its parts fit to
 
 ## What it is
 
-`lynn.stv.pm` is the standard for **Lynn**, the original character of Steven Lynn (current design by YAYOI の 夢). It presents:
+`lynn.stv.pm` is the standard for **Lynn**, the original character of Steven Lynn. It presents:
 
 - **Drawing sheet** (`/`) — a line-art front elevation of Lynn, plotted on load and annotated like an engineering drawing.
-- **Character** (`/character`) — specification, principles, identity traits (linked to callouts on the drawing), palette, proportion, reference sheet and the "never" list.
+- **Character** (`/character`) — specification, principles, identity traits (four colored SVG views with synchronized callouts and proportion measurements, with proportion notes beneath), palette and a one-click drawing prompt. Turn the figure with the view controls, keyboard arrows or a horizontal touch swipe; click a trait to smoothly zoom to its location, and use “View full figure” to reset. Selecting a hidden trait returns to the front view. The prompt is assembled from the current identity traits, proportions, palette, principles and prohibited variations, with an expandable preview and clipboard feedback. The `#proportion` anchor points to the notes within Identity traits.
 - **Wardrobe** (`/wardrobe?look=<id>`) — six sanctioned outfits, one canonical.
-- **Art book** (`/gallery`) — finished illustrations on tilt plates with a lightbox.
+- **Art book** (`/gallery`) — finished illustrations with depth-map-driven pointer parallax inside stationary frames, plus a lightbox. Touch devices can enable calibrated tilt parallax; reduced-motion mode shows the original still images.
 - **UI specification** (`/specs/ui`) — the live token catalog with contrast checks, type, space, radius, elevation, motion and components.
 - **Sticker specification** (`/specs/stickers`) — canvas, rules, a server-side prompt composer and the full sticker set.
 - **PV specification** (`/specs/pv`) — delivery format, identity and costume lock, rules, pipeline and stills from the Trick Heart cover.
+
+Every page ends with a GitHub project call to action, plus links to `sticker.stv.pm`, `stv.pm`, and `@stv_lynn` on X.
 
 ## Goals
 

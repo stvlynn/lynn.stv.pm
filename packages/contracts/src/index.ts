@@ -79,7 +79,6 @@ export interface ProportionDto {
 
 export interface CharacterProfileDto {
   readonly name: string;
-  readonly nameNative: string;
   readonly tagline: string;
   readonly summary: string;
   readonly credits: readonly CreditDto[];

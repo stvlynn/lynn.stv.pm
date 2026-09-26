@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useTransform } from 'motion/react';
 import { useEffect } from 'react';
+import { useTiltTarget, useMediaQuery } from 'shared/lib';
 import styles from './DrawingFrame.module.css';
 
 const COLUMNS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -14,17 +15,21 @@ const pad = (value: number) => String(Math.round(value)).padStart(4, '0');
 export function DrawingFrame() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const tilt = useTiltTarget(x, y, 100);
+  const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   const readX = useTransform(x, (value) => `X ${pad(value)}`);
   const readY = useTransform(y, (value) => `Y ${pad(value)}`);
 
   useEffect(() => {
+    if (tilt || reduced) return;
     const onMove = (event: PointerEvent) => {
+      if (event.pointerType === 'touch') return;
       x.set(event.clientX);
       y.set(event.clientY);
     };
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => window.removeEventListener('pointermove', onMove);
-  }, [x, y]);
+  }, [x, y, tilt, reduced]);
 
   return (
     <div className={styles.frame} aria-hidden="true">

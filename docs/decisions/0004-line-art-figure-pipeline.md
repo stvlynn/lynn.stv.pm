@@ -20,6 +20,7 @@ The home page opens on a front-elevation line drawing of Lynn, annotated like an
 
 - Regenerating the drawing is: replace `source.png`, run the script, re-check anchors in `figure.ts`.
 - `lineart.ts` is generated and excluded from formatting.
+- Character turnaround views extend the same pipeline: source images live in `frontend/scripts/lineart/views/`, generated paths in `blueprint/generated/`, and view-specific anchors in `blueprint/views.ts`. The vectorizer accepts source/output paths, an optional common height, an ink threshold and a standalone SVG destination. Sources with alpha are composited onto white before tracing.
 - Proportion content (6.6 heads) is kept consistent with the measured drawing.
 
 ## Alternatives considered

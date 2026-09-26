@@ -12,7 +12,11 @@ This section defines how the frontend is organized using **Feature-Sliced Design
 - [`import-rules.md`](import-rules.md) — cross-layer and cross-slice import rules.
 - [`ui-patterns.md`](ui-patterns.md) — semantic styling, no hardcoded copy, no redundant copy.
 - [`design-system.md`](design-system.md) — tokens, beUI components, the drawing sheet figure and motion.
+- [`mobile-feedback.md`](mobile-feedback.md) — tilt permissions, calibration and touch feedback.
+- [`artwork-depth.md`](artwork-depth.md) — art book depth assets, pointer parallax and verification.
 - [`../quality/agent-skills.md`](../quality/agent-skills.md) — Agent Skills for UI craft, motion, and anti-slop.
+
+- [`social-metadata.md`](social-metadata.md) — favicon, crawler-readable page metadata and share-card generation.
 
 ## Quick start
 

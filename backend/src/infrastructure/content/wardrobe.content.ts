@@ -28,7 +28,7 @@ export const outfitContent = [
       { label: 'Bow', token: '--lynn-bow' },
       { label: 'Skirt', token: '--lynn-skirt' },
     ],
-    source: 'Reference sheet by YAYOI の 夢',
+    source: 'Original reference sheet',
   },
   {
     id: 'magician',

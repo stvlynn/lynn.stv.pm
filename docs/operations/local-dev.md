@@ -10,9 +10,10 @@ No database, cache or broker: content ships in the repository.
 ## Setup
 
 ```sh
-pnpm install
-pnpm dev          # backend on :8787 (tsx watch) + frontend on :5173 (Vite)
+make dev          # install dependencies, then run backend on :8787 and frontend on :5173
 ```
+
+Run `make install` to install workspace dependencies without starting the development servers.
 
 Vite proxies `/api` to the backend. Media under `frontend/public/media` is served by Vite in development and by the backend in production.
 

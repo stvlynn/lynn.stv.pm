@@ -1,0 +1,107 @@
+.footer {
+  margin-top: auto;
+  border-top: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-8);
+  width: min(100%, 76rem);
+  margin-inline: auto;
+  padding: var(--space-12) clamp(var(--space-4), 4vw, var(--space-12)) var(--space-8);
+}
+
+.primary {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.eyebrow,
+.label {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.6rem + 1.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.github {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-ink);
+  color: var(--color-ink-contrast);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-quick) var(--ease-out),
+    transform var(--duration-quick) var(--ease-out);
+}
+
+.github:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.github:active {
+  transform: scale(0.96);
+}
+
+.secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.linkGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.linkGroup a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  transition: text-decoration-color var(--duration-quick) var(--ease-out);
+}
+
+.linkGroup a:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (max-width: 700px) {
+  .primary {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .secondary {
+    gap: var(--space-4);
+  }
+}

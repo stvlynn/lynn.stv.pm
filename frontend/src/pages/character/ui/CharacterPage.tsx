@@ -5,8 +5,7 @@ import {
   CharacterOverview,
   CharacterPalette,
   CharacterPrinciples,
-  CharacterProportion,
-  CharacterReference,
+  CharacterDrawingPrompt,
 } from 'widgets/character-profile';
 import { TraitSheet } from 'widgets/trait-sheet';
 
@@ -17,15 +16,14 @@ export function CharacterPage() {
       <QueryState query={profile} fallback={<Skeleton height="18rem" count={3} />}>
         {(data) => (
           <>
-            <PageHeader title={`${data.name} · ${data.nameNative}`} code="CHR-01" lead={data.summary} />
+            <PageHeader title={data.name} code="CHR-01" lead={data.summary} />
             <CharacterOverview profile={data} />
             <CharacterPrinciples profile={data} />
             <Section id="traits" title={t('character.traits')} code="CHR-01.3">
               <TraitSheet profile={data} />
             </Section>
             <CharacterPalette profile={data} />
-            <CharacterProportion profile={data} />
-            <CharacterReference profile={data} />
+            <CharacterDrawingPrompt profile={data} />
           </>
         )}
       </QueryState>

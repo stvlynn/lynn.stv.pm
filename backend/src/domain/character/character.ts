@@ -33,7 +33,6 @@ export interface Proportion {
 
 export interface CharacterProps {
   readonly name: string;
-  readonly nameNative: string;
   readonly tagline: string;
   readonly summary: string;
   readonly credits: readonly Credit[];
@@ -65,10 +64,6 @@ export class Character {
 
   get name(): string {
     return this.props.name;
-  }
-
-  get nameNative(): string {
-    return this.props.nameNative;
   }
 
   get tagline(): string {

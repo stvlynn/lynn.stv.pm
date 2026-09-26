@@ -6,7 +6,6 @@ import { toMedia, toSwatch } from './content-mapping';
 export class InMemoryCharacterRepository implements CharacterRepository {
   private readonly character = Character.create({
     name: characterContent.name,
-    nameNative: characterContent.nameNative,
     tagline: characterContent.tagline,
     summary: characterContent.summary,
     credits: characterContent.credits.map((credit) => ({ ...credit })),

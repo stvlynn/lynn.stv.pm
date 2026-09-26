@@ -1,4 +1,5 @@
 .workspace/
+.wrangler/
 .env
 .env.*
 !.env.example

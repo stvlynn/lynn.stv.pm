@@ -5,10 +5,13 @@ import { paths } from 'shared/config';
 import { t } from 'shared/i18n';
 import { Button, Drawer, Icon } from 'shared/ui';
 import styles from './MobileBar.module.css';
+import { DeviceControls, DeviceStatus } from './DeviceControls';
+import { useHaptics } from 'shared/lib';
 import { NavigationList } from './NavigationList';
 
 /** Compact header with the section list in a beUI drawer. */
 export function MobileBar() {
+  const pulse = useHaptics();
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
 
@@ -21,18 +24,25 @@ export function MobileBar() {
           {t('brand.wordmark')}
         </Link>
         <div className={styles.actions}>
-          <ThemeToggle />
+          <DeviceControls compact />
+          <div className={styles.theme}>
+            <ThemeToggle />
+          </div>
           <Button
             variant="ghost"
             size="small"
             iconOnly
             aria-label={t('nav.open')}
             aria-expanded={open}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              pulse('medium');
+              setOpen(true);
+            }}
           >
             <Icon name="menu" />
           </Button>
         </div>
+        <DeviceStatus />
       </header>
       <Drawer open={open} onOpenChange={setOpen} side="left" ariaLabel={t('nav.label')} className={styles.sheet}>
         <Button
@@ -45,7 +55,13 @@ export function MobileBar() {
         >
           <Icon name="close" />
         </Button>
-        <NavigationList layoutId="mobile-indicator" onNavigate={() => setOpen(false)} />
+        <NavigationList
+          onNavigate={() => {
+            pulse('light');
+            setOpen(false);
+          }}
+        />
+        <DeviceControls />
       </Drawer>
     </>
   );

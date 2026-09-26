@@ -17,11 +17,23 @@
   border-radius: var(--radius-2xl);
   background: var(--color-surface-muted);
   box-shadow: var(--shadow-md), var(--shadow-border);
-  transition: box-shadow var(--duration-base) var(--ease-out);
 }
 
-.plate:hover .frame {
-  box-shadow: var(--shadow-lg), var(--shadow-border);
+.painting {
+  position: relative;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.canvas[data-ready='true'] {
+  opacity: 1;
 }
 
 .image {
@@ -37,10 +49,10 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  transform-style: preserve-3d;
 }
 
 .label {
+  pointer-events: none;
   position: absolute;
   left: var(--space-4);
   right: var(--space-4);

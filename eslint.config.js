@@ -61,6 +61,7 @@ export default tseslint.config(
     ignores: [
       '**/dist/**',
       '**/node_modules/**',
+      '.wrangler/**',
       '.claude/**',
       '.agents/**',
       'frontend/src/shared/ui/beui/**',

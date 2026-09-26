@@ -64,7 +64,7 @@
   justify-content: space-between;
   gap: var(--space-3);
   padding: 0.5rem var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xl);
   color: var(--color-text-muted);
   text-decoration: none;
   font-size: 1.0625rem;
@@ -76,9 +76,8 @@
   color: var(--color-text);
 }
 
-.linkLabel,
-.code {
-  position: relative;
+.link[aria-current='page'] {
+  background: var(--muted);
 }
 
 .code {
@@ -87,14 +86,6 @@
   letter-spacing: 0.08em;
   color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
-}
-
-.indicator {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--color-accent-soft);
-  box-shadow: inset 2px 0 0 var(--color-accent);
 }
 
 .footer {

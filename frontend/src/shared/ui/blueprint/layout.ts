@@ -18,12 +18,15 @@ export const COLUMN = { left: -44, right: 444 } as const;
  * Stacks callout labels on each side of the figure, in anchor order, so no
  * two labels are closer than LABEL_GAP. Traits without an anchor are skipped.
  */
-export function placeCallouts(callouts: readonly CalloutInput[]): PlacedCallout[] {
+export function placeCallouts(
+  callouts: readonly CalloutInput[],
+  anchors: Readonly<Record<string, TraitAnchor>> = traitAnchors,
+): PlacedCallout[] {
   const placed: PlacedCallout[] = [];
   for (const side of ['left', 'right'] as const satisfies readonly CalloutSide[]) {
     const onSide = callouts
       .flatMap((callout) => {
-        const anchor = traitAnchors[callout.id];
+        const anchor = anchors[callout.id];
         return anchor && anchor.side === side ? [{ ...callout, anchor }] : [];
       })
       .sort((a, b) => a.anchor.y - b.anchor.y);

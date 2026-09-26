@@ -4,7 +4,7 @@ import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } fro
 import { type PointerEvent, useMemo, useState } from 'react';
 import { paths } from 'shared/config';
 import { t } from 'shared/i18n';
-import { duration, ease, pointerSpring, useMediaQuery } from 'shared/lib';
+import { duration, ease, pointerSpring, useMediaQuery, useTiltTarget } from 'shared/lib';
 import { ButtonLink, FigureDrawing, Icon, TextReveal } from 'shared/ui';
 import styles from './DrawingSheet.module.css';
 
@@ -26,6 +26,7 @@ export function DrawingSheet() {
   const pointerY = useMotionValue(0);
   const x = useSpring(pointerX, pointerSpring);
   const y = useSpring(pointerY, pointerSpring);
+  const tilt = useTiltTarget(pointerX, pointerY, 0.5);
   const figureX = useTransform(x, (value) => value * -18);
   const figureY = useTransform(y, (value) => value * -12);
   const figureRotate = useTransform(x, (value) => value * 4);
@@ -33,7 +34,7 @@ export function DrawingSheet() {
   const copyY = useTransform(y, (value) => value * 8);
 
   const onPointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (reduced || event.pointerType === 'touch') return;
+    if (tilt || reduced || event.pointerType === 'touch') return;
     const rect = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
     pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
@@ -46,6 +47,7 @@ export function DrawingSheet() {
       className={styles.sheet}
       onPointerMove={onPointerMove}
       onPointerLeave={() => {
+        if (tilt) return;
         pointerX.set(0);
         pointerY.set(0);
       }}

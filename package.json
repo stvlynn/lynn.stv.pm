@@ -2,11 +2,12 @@
   "name": "lynn-stv-pm",
   "version": "0.1.0",
   "private": true,
-  "description": "Lynn \u2014 the character standard and design specification site.",
+  "description": "Lynn — the character standard and design specification site.",
   "type": "module",
   "scripts": {
     "dev": "pnpm --parallel --filter @lynn/backend --filter @lynn/frontend dev",
     "build": "pnpm --filter @lynn/frontend build && pnpm --filter @lynn/backend build",
+    "deploy:worker": "pnpm build && wrangler deploy",
     "start": "pnpm --filter @lynn/backend start",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
@@ -21,13 +22,14 @@
   },
   "packageManager": "pnpm@9.15.0",
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "eslint": "^10.11.0",
-    "typescript-eslint": "^8.70.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.12.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.2",
-    "@playwright/test": "1.63.0"
+    "wrangler": "^4.136.2"
   }
 }

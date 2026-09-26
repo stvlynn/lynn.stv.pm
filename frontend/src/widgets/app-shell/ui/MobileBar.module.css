@@ -39,3 +39,40 @@
   top: var(--space-3);
   right: var(--space-4);
 }
+
+.deviceControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.deviceControls button {
+  min-height: 44px;
+}
+.deviceControls p {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-small-size);
+  max-width: 30ch;
+}
+
+.actions {
+  align-items: center;
+}
+
+.bar {
+  flex-wrap: wrap;
+}
+.deviceStatus {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-small-size);
+}
+@media (max-width: 399px) {
+  .theme > span > span {
+    display: none;
+  }
+}

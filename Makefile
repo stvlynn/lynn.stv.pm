@@ -1,6 +1,9 @@
-.PHONY: dev build check test lint format docs help
+.PHONY: install dev build check test lint format docs help
 
-dev: ## Run API and frontend with hot reload
+install: ## Install workspace dependencies
+	@pnpm install
+
+dev: install ## Install dependencies, then run API and frontend with hot reload
 	@pnpm dev
 
 build: ## Build frontend and backend bundles

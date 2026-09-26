@@ -2,6 +2,5 @@ export {
   CharacterOverview,
   CharacterPalette,
   CharacterPrinciples,
-  CharacterProportion,
-  CharacterReference,
+  CharacterDrawingPrompt,
 } from './ui/CharacterProfile';

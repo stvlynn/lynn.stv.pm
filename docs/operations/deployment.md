@@ -1,6 +1,27 @@
 # Deployment
 
-## Target
+## Cloudflare Worker
+
+`wrangler.jsonc` deploys the Hono API and the built Vite SPA as one Worker at
+`lynn.stv.pm`. Cloudflare serves static assets directly and invokes the Worker
+for `/api/*` and `/health`. Client routes fall back to `index.html`.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm check
+pnpm deploy:worker
+```
+
+Wrangler uses the authenticated Cloudflare account. The Worker name is
+`lynn-stv-pm`; its custom domain is declared in `wrangler.jsonc`. To connect
+the repository for automatic deployments, open the Worker in Cloudflare's
+Workers & Pages dashboard, then select **Settings → Builds → Connect** and
+choose `stvlynn/lynn.stv.pm`. Set the root directory to `/`, the build command
+to `pnpm install --frozen-lockfile && pnpm build`, and the deploy command to
+`pnpm exec wrangler deploy`. The dashboard Worker name must match the Wrangler
+configuration name.
+
+## Container target
 
 One container runs the Hono backend, which serves `/api/v1/*`, `/health`, `/media/*`, hashed `/assets/*` and the SPA with a fallback to `index.html` for client routes.
 

@@ -1,6 +1,7 @@
 import type { CharacterProfile as Profile } from 'entities/character';
 import { t } from 'shared/i18n';
-import { FigureDrawing, Icon, Reveal, Section, Swatch, TiltCard } from 'shared/ui';
+import { CharacterPrompt } from 'features/copy-character-prompt';
+import { Reveal, Section, Swatch } from 'shared/ui';
 import styles from './CharacterProfile.module.css';
 
 export function CharacterOverview({ profile }: { readonly profile: Profile }) {
@@ -67,61 +68,10 @@ export function CharacterPalette({ profile }: { readonly profile: Profile }) {
   );
 }
 
-export function CharacterProportion({ profile }: { readonly profile: Profile }) {
+export function CharacterDrawingPrompt({ profile }: { readonly profile: Profile }) {
   return (
-    <Section id="proportion" title={t('character.proportion')} code="CHR-01.5">
-      <div className={styles.proportion}>
-        <div className={styles.proportionDrawing}>
-          <FigureDrawing
-            label={t('blueprint.figureLabel')}
-            dimensions={{
-              unit: t('blueprint.headUnit'),
-              centerline: t('blueprint.centerline'),
-              heads: t('blueprint.heads'),
-            }}
-          />
-        </div>
-        <Reveal>
-          <p className={styles.proportionValue}>
-            {profile.proportion.headsTall} {t('blueprint.heads')}
-          </p>
-          <p className={styles.proportionNote}>{profile.proportion.note}</p>
-        </Reveal>
-      </div>
-    </Section>
-  );
-}
-
-export function CharacterReference({ profile }: { readonly profile: Profile }) {
-  const sheet = profile.referenceSheet;
-  return (
-    <Section id="reference" title={t('character.reference')} code="CHR-01.6">
-      <div className={styles.reference}>
-        <TiltCard max={7} className={styles.referenceFrame}>
-          <img
-            src={sheet.src}
-            alt={sheet.alt}
-            width={sheet.width}
-            height={sheet.height}
-            loading="lazy"
-            decoding="async"
-            className={styles.referenceImage}
-          />
-        </TiltCard>
-        <div>
-          <h3 className={styles.role}>{t('character.doNot')}</h3>
-          <ul className={styles.never}>
-            {profile.doNot.map((rule, index) => (
-              <Reveal as="li" key={rule} index={index} className={styles.neverItem}>
-                <span className={styles.cross}>
-                  <Icon name="cross" size={12} />
-                </span>
-                <span>{rule}</span>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </div>
+    <Section id="drawing-prompt" title={t('character.prompt')} code="CHR-01.5">
+      <CharacterPrompt profile={profile} />
     </Section>
   );
 }

@@ -1,3 +1,4 @@
+import { DeviceFeedbackProvider } from 'shared/lib';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { MotionConfig } from 'motion/react';
 import { ThemeProvider } from 'next-themes';
@@ -17,7 +18,9 @@ export function AppProviders({ children }: { readonly children: ReactNode }) {
       scriptProps={{ type: 'application/json' }}
     >
       <QueryClientProvider client={queryClient}>
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <MotionConfig reducedMotion="user">
+          <DeviceFeedbackProvider>{children}</DeviceFeedbackProvider>
+        </MotionConfig>
       </QueryClientProvider>
     </ThemeProvider>
   );

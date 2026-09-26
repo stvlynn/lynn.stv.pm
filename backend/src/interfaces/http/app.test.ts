@@ -12,7 +12,7 @@ import { MemoryLogger } from '../../infrastructure/logging/logger';
 import { createApp } from './app';
 
 const logger = new MemoryLogger();
-const app = createApp(buildDependencies({ PORT: 8787, HOST: '127.0.0.1', LOG_LEVEL: 'error' }, logger));
+const app = createApp(buildDependencies(undefined, logger));
 
 async function getJson<T>(path: string, init?: RequestInit): Promise<{ status: number; body: ApiEnvelope<T> }> {
   const response = await app.request(path, init);

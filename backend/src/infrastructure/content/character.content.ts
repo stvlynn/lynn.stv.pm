@@ -4,13 +4,11 @@
  */
 export const characterContent = {
   name: 'Lynn',
-  nameNative: 'Lynn 酱',
   tagline: 'A quiet observer drawn in navy ink and silver-white.',
   summary:
-    'Lynn is the original character of Steven Lynn. She started as a personal avatar, went through several redesigns, and settled into her silver-haired form in the version drawn by YAYOI の 夢. This site is her standard: what never changes, what may, and how she is used in interfaces, stickers and music videos.',
+    'Lynn is the original character of Steven Lynn. She started as a personal avatar, went through several redesigns, and settled into her silver-haired form. This site is her standard: what never changes, what may, and how she is used in interfaces, stickers and music videos.',
   credits: [
     { role: 'Creator', name: 'Steven Lynn', url: 'https://x.com/Stv_Lynn' },
-    { role: 'Current design', name: 'YAYOI の 夢', url: 'https://x.com/Yayoi_no_yume' },
     { role: 'Sticker set', name: 'Lynn-chan Stickers', url: 'https://github.com/stvlynn/sticker' },
   ],
   facts: [
