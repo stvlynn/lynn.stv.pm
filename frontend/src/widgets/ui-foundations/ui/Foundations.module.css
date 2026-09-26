@@ -1,0 +1,417 @@
+.label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+/* Principles */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.principle {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.principle h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.principle p {
+  margin: 0;
+  font-size: var(--type-small-size);
+  color: var(--color-text-muted);
+}
+
+/* Ramps */
+.ramps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-12);
+}
+
+.rampHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.rampName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+.strip {
+  display: flex;
+  height: 8.5rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-border);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-2);
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: copy;
+  overflow: hidden;
+}
+
+.stepName {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+}
+
+.stepValue {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--type-small-size);
+}
+
+.table th {
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border-strong);
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  font-weight: 400;
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.table td {
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.pair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.chip {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-xs);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink-950) 16%, transparent);
+}
+
+.ratioCell {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 12rem;
+}
+
+.ratioTrack {
+  position: relative;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+}
+
+.ratioFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--color-text);
+  transform-origin: left;
+}
+
+.ratioMark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--color-accent);
+}
+
+/* Type */
+.families {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-4);
+}
+
+.family {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-border);
+}
+
+.familyGlyph {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.familySpecimen {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.scale {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.scaleRow {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.scaleSample {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Space, radius, elevation */
+.spaceList {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.spaceRow {
+  display: grid;
+  grid-template-columns: 7rem 4rem 1fr;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.spaceBar {
+  height: 0.75rem;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transform-origin: left;
+}
+
+.radii {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: var(--space-4);
+}
+
+.radiusCard,
+.shadowCard {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+
+.radiusShape {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--color-blueprint-line);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  background: var(--color-accent-soft);
+}
+
+.shadows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--space-6);
+}
+
+.shadowSurface {
+  width: 100%;
+  height: 7rem;
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.shadowSurface:hover {
+  transform: translateY(-3px);
+}
+
+/* Motion */
+.easings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-4);
+}
+
+.easing {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-border);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow var(--duration-quick) var(--ease-out);
+}
+
+.easing:hover {
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 1px color-mix(in oklab, var(--color-accent) 40%, transparent);
+}
+
+.curve {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.curveGrid {
+  fill: none;
+  stroke: var(--color-border);
+}
+
+.curvePath {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.curveDot {
+  fill: var(--color-accent);
+}
+
+.track {
+  position: relative;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-muted);
+}
+
+.puck {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(1.5rem - 6px);
+  height: calc(1.5rem - 6px);
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+}
+
+.durations {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.durationRow {
+  display: grid;
+  grid-template-columns: 9rem 4rem 1fr;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.durationTrack {
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-muted);
+  overflow: hidden;
+}
+
+.durationFill {
+  display: block;
+  height: 100%;
+  background: var(--color-text);
+  transform-origin: left;
+}
+
+/* Components */
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-4);
+}
+
+.specimen {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-border);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .scaleRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .scaleSample {
+    white-space: normal;
+  }
+}

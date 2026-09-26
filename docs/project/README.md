@@ -1,41 +1,35 @@
 # Project
 
-This section describes the project at a high level: what it is, what it is not, and how the major parts fit together.
+This section describes what the site is, who it serves, and how its parts fit together.
 
 ## Documents
 
-- [`architecture.md`](architecture.md) — system architecture, module boundaries, and data flow.
+- [`architecture.md`](architecture.md) — packages, layers, content flow, technology and approved exceptions.
 
-## Project overview
+## What it is
 
-This repository is an **agentic-coding template**. It is meant to be copied at the start of a new project so that coding agents can immediately understand the conventions and boundaries.
+`lynn.stv.pm` is the standard for **Lynn**, the original character of Steven Lynn (current design by YAYOI の 夢). It presents:
 
-Because it is a template, concrete technology choices are intentionally left as placeholders. When you copy this template, fill in:
+- **Drawing sheet** (`/`) — a line-art front elevation of Lynn, plotted on load and annotated like an engineering drawing.
+- **Character** (`/character`) — specification, principles, identity traits (linked to callouts on the drawing), palette, proportion, reference sheet and the "never" list.
+- **Wardrobe** (`/wardrobe?look=<id>`) — six sanctioned outfits, one canonical.
+- **Art book** (`/gallery`) — finished illustrations on tilt plates with a lightbox.
+- **UI specification** (`/specs/ui`) — the live token catalog with contrast checks, type, space, radius, elevation, motion and components.
+- **Sticker specification** (`/specs/stickers`) — canvas, rules, a server-side prompt composer and the full sticker set.
+- **PV specification** (`/specs/pv`) — delivery format, identity and costume lock, rules, pipeline and stills from the Trick Heart cover.
 
-- Programming language and runtime version.
-- Frontend framework and state-management approach.
-- Backend framework and transport (HTTP, gRPC, events, CLI).
-- Database, cache, and message broker.
-- Hosting and deployment target.
+## Goals
 
-## Boundaries
+- One authoritative, linkable reference for anyone drawing, animating or designing with Lynn.
+- Every visible value (colors, type, motion) is the value the site itself runs on.
 
-The template enforces two architectural boundaries:
+## Non-goals
 
-- **Frontend:** [Feature-Sliced Design (FSD)](../frontend/README.md).
-- **Backend:** [Domain-Driven Design (DDD) layered architecture](../backend/README.md).
+- No accounts, uploads or editing UI. Content changes through pull requests.
+- No commercial licensing flow. Stickers are CC BY 4.0 with the author's non-commercial request.
 
-Anything that crosses both boundaries — for example, a shared type contract between frontend and backend — should be documented in [`architecture.md`](architecture.md).
+## Related repositories
 
-## What belongs here
-
-- Project goals and non-goals.
-- High-level architecture and module relationships.
-- Technology-stack decisions.
-- Cross-cutting concerns that touch both frontend and backend.
-
-## What does not belong here
-
-- Detailed layer rules (those live in [`frontend/`](../frontend/README.md) and [`backend/`](../backend/README.md)).
-- Operational procedures (those live in [`operations/`](../operations/README.md)).
-- Testing or code-review policy (those live in [`quality/`](../quality/README.md)).
+- `stvlynn/navy-ink-design-system` — source of the ink / cornflower ramps and UI principles.
+- `stvlynn/sticker` — source of the sticker set, prompt template and license.
+- `stvlynn/trick-art` — the Trick Heart PV production, source of the PV rules and stills.

@@ -38,3 +38,15 @@
 
 - Aim for high coverage of domain and application layers.
 - Do not chase 100% coverage at the expense of meaningful tests.
+
+## Suites in this repository
+
+Run everything with `pnpm test` (Vitest in each package).
+
+| Package           | Covers                                                                                                                                         |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/tokens` | Every ramp step and semantic token is emitted; dark overrides are complete; references resolve to hex.                                         |
+| `backend`         | Value objects, contrast math, frame-count and timecode rules, sticker prompt rules, wardrobe ordering; HTTP integration through `app.request`. |
+| `frontend`        | i18n lookup, sticker filtering, bezier sampling, callout label spacing.                                                                        |
+
+Visual changes are reviewed with Playwright screenshots of every route in both themes and at 390 px width; no page may scroll horizontally.

@@ -1,0 +1,61 @@
+.shell {
+  position: relative;
+  display: flex;
+  height: 100dvh;
+  min-height: 0;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(var(--color-blueprint-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-blueprint-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--color-blueprint-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-blueprint-grid) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+  background-position: -1px -1px;
+}
+
+.skip {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-ink);
+  color: var(--color-ink-contrast);
+  transform: translateY(-200%);
+  transition: transform var(--duration-quick) var(--ease-out);
+}
+
+.skip:focus-visible {
+  transform: translateY(0);
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.main:focus {
+  outline: none;
+}
+
+.page {
+  min-height: 100%;
+}

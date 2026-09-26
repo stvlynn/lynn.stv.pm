@@ -1,17 +1,33 @@
 {
-  "name": "agentic-coding-template",
-  "version": "0.0.0",
+  "name": "lynn-stv-pm",
+  "version": "0.1.0",
   "private": true,
-  "description": "Language- and framework-agnostic template for agent-driven projects.",
+  "description": "Lynn \u2014 the character standard and design specification site.",
+  "type": "module",
   "scripts": {
-    "check": "echo 'Replace with typecheck + lint + test commands'",
-    "test": "echo 'Replace with test runner command'",
-    "lint": "echo 'Replace with linter command'",
-    "format": "echo 'Replace with formatter command'",
-    "docs:check": "echo 'Replace with markdown link checker command'"
+    "dev": "pnpm --parallel --filter @lynn/backend --filter @lynn/frontend dev",
+    "build": "pnpm --filter @lynn/frontend build && pnpm --filter @lynn/backend build",
+    "start": "pnpm --filter @lynn/backend start",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "test": "pnpm -r test",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm docs:check",
+    "format": "prettier --write .",
+    "docs:check": "node scripts/check-doc-links.mjs",
+    "format:check": "prettier --check ."
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@9.15.0",
+  "devDependencies": {
+    "eslint": "^10.11.0",
+    "typescript-eslint": "^8.70.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.2",
+    "@playwright/test": "1.63.0"
+  }
 }

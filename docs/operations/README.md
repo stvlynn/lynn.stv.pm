@@ -9,31 +9,16 @@ This section covers how the project is run, built, deployed, and monitored.
 
 ## Environment
 
-Fill in concrete environment requirements here once the technology stack is chosen:
-
-- Runtime version: `__RUNTIME_VERSION__`
-- Required environment variables: `DATABASE_URL`, `PORT`, `LOG_LEVEL`, etc.
-- Local services: database, cache, message broker.
+- Runtime: Node.js 22, pnpm 9.
+- Environment variables: `PORT`, `HOST`, `LOG_LEVEL`, `STATIC_DIR` (see [`local-dev.md`](local-dev.md)).
+- Local services: none.
 
 ## Commands
 
-Define the standard commands for this project. Placeholders:
-
 ```sh
-# Install dependencies
-__INSTALL_COMMAND__
-
-# Run tests
-__TEST_COMMAND__
-
-# Run type checks
-__TYPECHECK_COMMAND__
-
-# Start the backend
-__START_BACKEND__
-
-# Start the frontend
-__START_FRONTEND__
+pnpm install      # install
+pnpm dev          # backend + frontend with reload
+pnpm check        # typecheck, lint, format, tests, doc links
+pnpm build        # production build
+pnpm start        # serve the built backend
 ```
-
-Replace these with real commands when the stack is selected.

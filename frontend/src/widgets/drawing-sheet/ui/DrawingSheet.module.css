@@ -1,0 +1,141 @@
+.sheet {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr);
+  align-items: center;
+  min-height: 100dvh;
+  padding: var(--space-8) clamp(var(--space-4), 4vw, var(--space-12));
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-6);
+  align-content: center;
+}
+
+.drawingNumber {
+  display: flex;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--type-annotation-size);
+  letter-spacing: var(--type-annotation-tracking);
+  text-transform: uppercase;
+  color: var(--color-blueprint-line);
+}
+
+.wordmark {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--type-display-xl-size);
+  line-height: var(--type-display-xl-leading);
+  letter-spacing: var(--type-display-xl-tracking);
+  font-weight: 400;
+}
+
+.letter {
+  display: inline-block;
+}
+
+.tagline {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 1.2rem + 1vw, 2.25rem);
+  line-height: 1.1;
+  font-style: italic;
+  color: var(--color-text);
+}
+
+.summary {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.drawing {
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  height: min(calc(100dvh - 7.5rem), 62rem);
+  margin-right: calc(clamp(var(--space-4), 4vw, var(--space-12)) * -0.5);
+  transform-style: preserve-3d;
+}
+
+.titleBlock {
+  position: absolute;
+  right: var(--space-8);
+  bottom: var(--space-6);
+  z-index: 3;
+  display: flex;
+  margin: 0;
+  border: 1px solid var(--color-blueprint-line);
+  background: color-mix(in oklab, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(4px);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cell {
+  display: grid;
+  gap: 2px;
+  padding: 0.45rem 0.8rem;
+  border-right: 1px solid var(--color-blueprint-line);
+}
+
+.cell:last-child {
+  border-right: 0;
+}
+
+.cellLabel {
+  color: var(--color-text-muted);
+}
+
+.cellValue {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.cellWide .cellValue {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+@media (max-width: 1023px) {
+  .sheet {
+    grid-template-columns: 1fr;
+    align-content: end;
+    min-height: calc(100dvh - 4rem);
+    padding-bottom: var(--space-12);
+  }
+
+  .drawing {
+    position: absolute;
+    inset: var(--space-4) calc(var(--space-4) * -1) var(--space-4) 38%;
+    height: auto;
+    margin: 0;
+    opacity: 0.5;
+  }
+
+  .titleBlock {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+.bar {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    background: color-mix(in oklab, var(--color-bg) 82%, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.sheet {
+  gap: var(--space-6);
+  padding: var(--space-16) var(--space-6) var(--space-8);
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+}

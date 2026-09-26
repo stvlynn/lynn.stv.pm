@@ -1,18 +1,10 @@
 # docker
 
-This directory is a placeholder for Docker assets.
+`Dockerfile` builds a single image: the Hono backend serves `/api/v1/*`, `/health`, and the built frontend (with a client-route fallback to `index.html`).
 
-## Adjust to your project
+```sh
+docker build -f deploy/docker/Dockerfile -t lynn-stv-pm .
+docker run --rm -p 8787:8787 lynn-stv-pm
+```
 
-Add the following files as needed:
-
-- `Dockerfile` — image build instructions for the application.
-- `Dockerfile.frontend` / `Dockerfile.backend` — if frontend and backend are built separately.
-- `docker-compose.yml` — local orchestration of app, database, cache, etc.
-- `.dockerignore` — exclude `node_modules`, `.git`, build output, etc.
-
-## Notes
-
-- Use multi-stage builds to keep production images small.
-- Do not bake secrets into images.
-- Keep root images minimal; run the app as a non-root user when possible.
+Runtime environment: `PORT` (8787), `HOST` (0.0.0.0), `LOG_LEVEL` (info), `STATIC_DIR` (/app/public).

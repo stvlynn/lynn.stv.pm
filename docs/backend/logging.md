@@ -11,12 +11,12 @@ This document defines logging, tracing, and observability conventions.
 
 ## Log levels
 
-| Level | Use |
-|-------|-----|
+| Level   | Use                                                            |
+| ------- | -------------------------------------------------------------- |
 | `debug` | Detailed diagnostic information. Off by default in production. |
-| `info` | Significant business events (request handled, order placed). |
-| `warn` | Recoverable problems or unexpected but handled states. |
-| `error` | Failures that require attention. |
+| `info`  | Significant business events (request handled, order placed).   |
+| `warn`  | Recoverable problems or unexpected but handled states.         |
+| `error` | Failures that require attention.                               |
 
 ## What to log
 
@@ -53,3 +53,10 @@ Mask sensitive fields with a consistent pattern:
 - Log unexpected errors with full context.
 - Do not swallow errors with silent `catch` blocks.
 - Translate low-level errors into domain/application errors before exposing them to interfaces.
+
+## In this project
+
+- `JsonLogger` (`backend/src/infrastructure/logging/logger.ts`) implements the `Logger` port from `application/shared`.
+- `requestContext` middleware accepts a valid `x-request-id` (8–64 `[A-Za-z0-9-]`) or generates one, echoes it on the response, and logs `request handled` with method, path, status and duration.
+- Unhandled errors are logged at `error` with the request id; the response carries only `INTERNAL_ERROR`.
+- `LOG_LEVEL` sets the minimum level. Tests use `MemoryLogger`.

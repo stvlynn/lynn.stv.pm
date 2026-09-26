@@ -1,46 +1,36 @@
 # Deployment
 
-> How the project is built and deployed.
+## Target
 
-## Deployment target
-
-- Hosting: `__HOSTING__`
-- CI/CD platform: `__CI_CD__`
-- Container registry: `__REGISTRY__`
+One container runs the Hono backend, which serves `/api/v1/*`, `/health`, `/media/*`, hashed `/assets/*` and the SPA with a fallback to `index.html` for client routes.
 
 ## Build
 
 ```sh
-__BUILD_COMMAND__
+docker build -f deploy/docker/Dockerfile -t lynn-stv-pm .
 ```
 
-## Deploy
+The backend bundle inlines all dependencies, so the runtime stage copies `backend/dist`, `frontend/dist` and nothing else.
+
+## Run
 
 ```sh
-__DEPLOY_COMMAND__
+docker run --rm -p 8787:8787 lynn-stv-pm
 ```
 
-Deployment assets (Dockerfiles, Kubernetes manifests) live in [`deploy/`](../../deploy/README.md). They are placeholders and must be adjusted to the project's actual stack and hosting environment.
+## Caching
 
-## Database migrations
-
-- Run migrations as part of the deployment pipeline.
-- Back up production data before running destructive migrations.
-- Migrations should be idempotent and reversible when possible.
-
-## Rollback
-
-- Keep the previous release available for quick rollback.
-- Document the rollback command and expected recovery time.
+- `/assets/*` — `public, max-age=31536000, immutable` (content-hashed by Vite).
+- `/media/*` — `public, max-age=86400`.
 
 ## Health checks
 
-- Expose a `/health` endpoint.
-- Health checks should verify database connectivity and critical dependencies.
-- Do not include dependency details in the public health response that could aid attackers.
+`GET /health` returns `{"status":"ok"}`. The image declares a `HEALTHCHECK` against it.
 
-## Monitoring
+## Rollback
 
-- Collect logs with structured JSON.
-- Set up alerts for error rate, latency, and dependency failures.
-- Use correlation IDs to trace requests across services.
+Redeploy the previous image tag. There is no persistent state to migrate.
+
+## CI
+
+`.github/workflows/ci.yml` installs with the frozen lockfile, runs `pnpm check`, then `pnpm build`.

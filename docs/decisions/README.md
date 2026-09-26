@@ -12,6 +12,10 @@ Write an ADR when the decision:
 
 ## Existing decisions
 
+- [`0001-workspace-and-stack.md`](0001-workspace-and-stack.md) — pnpm workspace, Vite React SPA, Hono API, shared tokens and contracts.
+- [`0002-beui-component-library.md`](0002-beui-component-library.md) — vendored beUI components on Tailwind CSS 4.
+- [`0003-content-as-records.md`](0003-content-as-records.md) — content as typed records with in-memory repositories.
+- [`0004-line-art-figure-pipeline.md`](0004-line-art-figure-pipeline.md) — traced line art for the drawing sheet.
 - [`adr-template.md`](adr-template.md) — template for new ADRs.
 
 ## Naming
@@ -20,6 +24,6 @@ Use a sequential number and a short kebab-case title:
 
 ```
 decisions/
-  001-use-uuid-for-ids.md
-  002-choose-postgresql.md
+  0001-workspace-and-stack.md
+  0002-beui-component-library.md
 ```

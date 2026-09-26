@@ -34,8 +34,12 @@ export class SqlOrderRepository implements OrderRepository {
     await this.db('orders').insert(row).onConflict('id').merge();
   }
 
-  private toDomain(row: OrderRow): Order { /* ... */ }
-  private toPersistence(order: Order): OrderRow { /* ... */ }
+  private toDomain(row: OrderRow): Order {
+    /* ... */
+  }
+  private toPersistence(order: Order): OrderRow {
+    /* ... */
+  }
 }
 ```
 
