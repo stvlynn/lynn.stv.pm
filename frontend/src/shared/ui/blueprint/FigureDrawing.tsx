@@ -1,11 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useId, useMemo } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { cn, duration, ease, useMediaQuery } from '../../lib';
 import { figureCamera } from './camera';
 import { FigureArtwork } from './FigureArtwork';
 import { FigureCamera } from './FigureCamera';
 import { type FigureGeometry, FIGURE_HEIGHT, FIGURE_WIDTH, frontFigure } from './figure';
 import styles from './FigureDrawing.module.css';
+import { FigureStrokeMask } from './FigureStrokeMask';
+import { FIGURE_DRAW_DURATION } from './stroke-timeline';
 import { COLUMN, type CalloutInput, placeCallouts } from './layout';
 
 const FULL_MARGIN = { left: 350, right: 360, top: 90, bottom: 60 };
@@ -13,7 +15,6 @@ const BARE_MARGIN = { left: 24, right: 24, top: 24, bottom: 24 };
 const viewBoxFor = (margin: typeof FULL_MARGIN) =>
   `${-margin.left} ${-margin.top} ${FIGURE_WIDTH + margin.left + margin.right} ${FIGURE_HEIGHT + margin.top + margin.bottom}`;
 const RULER_X = FIGURE_WIDTH + 300;
-const SCAN_OVERSHOOT = 24;
 
 interface FigureDrawingProps {
   readonly label: string;
@@ -45,11 +46,13 @@ export function FigureDrawing({
   const { headTop: HEAD_TOP, chin: CHIN, centerX: CENTER_X, hem: HEM } = figure;
   const HEAD_UNIT = CHIN - HEAD_TOP;
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
-  const animate = draw && !reduced;
+  const [completedFigure, setCompletedFigure] = useState<string | null>(null);
+  const animate = draw && !reduced && figure.penStrokes !== undefined;
+  const drawingInk = animate && completedFigure !== figure.id;
   const placed = useMemo(() => placeCallouts(callouts, figure.anchors), [callouts, figure.anchors]);
   const viewTransition = { duration: reduced ? 0 : duration.base, ease: ease.out };
   const maskId = `figure-reveal-${useId().replace(/:/g, '')}`;
-  const drawnAt = duration.drawn;
+  const drawnAt = FIGURE_DRAW_DURATION;
   const annotated = callouts.length > 0 || dimensions !== undefined;
   const MARGIN = annotated ? FULL_MARGIN : BARE_MARGIN;
   const camera = figureCamera(figure, focusId);
@@ -131,26 +134,19 @@ export function FigureDrawing({
           </motion.g>
         ) : null}
 
-        {animate ? (
-          <defs>
-            <mask id={maskId} maskUnits="userSpaceOnUse">
-              <motion.rect
-                x={-SCAN_OVERSHOOT}
-                y={-SCAN_OVERSHOOT}
-                width={FIGURE_WIDTH + SCAN_OVERSHOOT * 2}
-                fill="white"
-                initial={{ height: 0 }}
-                animate={{ height: FIGURE_HEIGHT + SCAN_OVERSHOOT * 2 }}
-                transition={{ duration: duration.drawn, ease: ease.inOut }}
-              />
-            </mask>
-          </defs>
+        {drawingInk && figure.penStrokes ? (
+          <FigureStrokeMask
+            id={maskId}
+            strokes={figure.penStrokes}
+            glasses={figure.glasses}
+            onComplete={() => setCompletedFigure(figure.id)}
+          />
         ) : null}
 
         <AnimatePresence initial={false}>
           <motion.g
             key={figure.id}
-            mask={animate ? `url(#${maskId})` : undefined}
+            mask={drawingInk ? `url(#${maskId})` : undefined}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -159,20 +155,6 @@ export function FigureDrawing({
             <FigureArtwork figure={figure} colored={colored} />
           </motion.g>
         </AnimatePresence>
-
-        {animate ? (
-          <motion.path
-            className={styles.scanline}
-            d={`M ${-SCAN_OVERSHOOT * 2} 0 L ${FIGURE_WIDTH + SCAN_OVERSHOOT * 2} 0`}
-            initial={{ y: -SCAN_OVERSHOOT, opacity: 1 }}
-            animate={{ y: FIGURE_HEIGHT + SCAN_OVERSHOOT, opacity: [1, 1, 0] }}
-            transition={{
-              duration: duration.drawn,
-              ease: ease.inOut,
-              opacity: { duration: duration.drawn, times: [0, 0.92, 1] },
-            }}
-          />
-        ) : null}
 
         <AnimatePresence>
           {placed.map((callout, index) => {
@@ -193,7 +175,7 @@ export function FigureDrawing({
                 onPointerLeave={onActiveChange ? () => onActiveChange(null) : undefined}
                 animate={{ opacity: focusId && !focused ? 0 : 1 }}
                 transition={viewTransition}
-                {...reveal(drawnAt * 0.6 + index * 0.06)}
+                {...reveal(drawnAt + index * 0.06)}
                 style={{ pointerEvents: focusId ? 'none' : 'auto' }}
                 exit={{ opacity: 0, transition: viewTransition }}
               >

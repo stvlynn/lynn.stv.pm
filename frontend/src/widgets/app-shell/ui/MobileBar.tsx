@@ -24,7 +24,6 @@ export function MobileBar() {
           {t('brand.wordmark')}
         </Link>
         <div className={styles.actions}>
-          <DeviceControls compact />
           <div className={styles.theme}>
             <ThemeToggle />
           </div>

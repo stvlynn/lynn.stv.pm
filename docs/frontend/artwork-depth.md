@@ -2,7 +2,7 @@
 
 `features/browse-gallery` renders the original artwork through a WebGL depth-displacement shader. The frame, corners and label remain stationary. Pointer coordinates drive the existing `pointerSpring` preset; near surfaces move more than distant surfaces, and leaving the image returns to the original framing. A small movement-dependent overscan covers the image edges.
 
-The effect runs only for visible artwork with no reduced-motion preference. Desktop uses a fine, hover-capable pointer; touch devices use calibrated device orientation after enabling tilt in the mobile header. See [mobile feedback](mobile-feedback.md) for permission and lifecycle behavior. The original semantic image remains underneath the decorative canvas, including during texture loading or WebGL unavailability. Initialization failures are logged; context restoration recreates GPU resources. The lightbox displays the original still image.
+The effect runs only for visible artwork with no reduced-motion preference. Desktop uses a fine, hover-capable pointer; touch devices use calibrated device orientation when available. See [mobile feedback](mobile-feedback.md) for permission and lifecycle behavior. The original semantic image remains underneath the decorative canvas, including during texture loading or WebGL unavailability. Initialization failures are logged; context restoration recreates GPU resources. The lightbox displays the original still image.
 
 ## Assets
 

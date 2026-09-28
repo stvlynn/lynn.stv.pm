@@ -3,15 +3,16 @@ import { LINEART_PATHS as backPaths } from './generated/back';
 import { LINEART_PATHS as leftPaths } from './generated/left';
 import { LINEART_PATHS as rightPaths } from './generated/right';
 
-// The front face is an open region in the traced ink, outside its filled contours.
-const FRONT_FACE_SILHOUETTE =
-  'M 140 170 C 150 157 167 159 184 174 C 199 186 213 184 228 171 C 244 157 263 166 271 185 C 280 204 279 232 270 252 C 258 276 227 295 203 296 C 178 294 150 280 138 257 C 128 236 129 189 140 170 Z';
+// Open hair strokes and the face do not enclose filled ink contours.
+// This continuous head silhouette includes those interior color regions.
+const FRONT_HEAD_SILHOUETTE =
+  'M 190 64 C 149 60 118 77 96 108 C 79 132 75 164 68 196 C 61 222 60 245 69 264 C 77 281 94 294 112 298 L 104 286 C 119 299 138 301 151 294 C 164 298 175 296 187 291 C 205 300 222 302 239 296 C 256 290 269 284 281 271 L 278 287 C 297 278 309 266 315 250 L 315 269 C 328 251 331 239 326 220 C 320 195 315 174 303 146 C 282 94 247 66 190 64 Z';
 
 /** Angles are named by the direction the figure faces on the page. */
 export const figureViews = {
   front: {
     ...frontFigure,
-    silhouetteExtras: [FRONT_FACE_SILHOUETTE],
+    silhouetteExtras: [FRONT_HEAD_SILHOUETTE],
     colorImage: { src: '/media/character/front-color.webp', x: -312, y: -13.75, width: 1024, height: 1536 },
   },
   left: {

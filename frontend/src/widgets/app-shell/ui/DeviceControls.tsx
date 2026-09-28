@@ -3,37 +3,24 @@ import { useDeviceFeedback } from 'shared/lib';
 import { Button } from 'shared/ui';
 import styles from './MobileBar.module.css';
 
-/** Permission is requested only from this explicit user gesture. */
-export function DeviceControls({ compact = false }: { readonly compact?: boolean }) {
+/** Optional vibration control; tilt permission is managed automatically. */
+export function DeviceControls() {
   const device = useDeviceFeedback();
   if (!device?.coarse) return null;
-  const { enabled, reduced, toggleTilt, haptics, canVibrate, toggleHaptics } = device;
+  const { reduced, haptics, canVibrate, toggleHaptics } = device;
   return (
     <div className={styles.deviceControls}>
       <Button
         size="small"
-        variant={enabled && !reduced ? 'accent' : 'ghost'}
-        aria-pressed={enabled && !reduced}
-        disabled={reduced}
-        onClick={() => void toggleTilt()}
+        variant="ghost"
+        aria-pressed={haptics && !reduced && canVibrate}
+        disabled={!canVibrate || reduced}
+        onClick={toggleHaptics}
       >
-        {enabled ? t('device.tiltOn') : t('device.tilt')}
+        {t('device.haptics')}
       </Button>
-      {!compact && (
-        <>
-          <Button
-            size="small"
-            variant="ghost"
-            aria-pressed={haptics && !reduced && canVibrate}
-            disabled={!canVibrate || reduced}
-            onClick={toggleHaptics}
-          >
-            {t('device.haptics')}
-          </Button>
-          {!canVibrate && <p>{t('device.noHaptics')}</p>}
-        </>
-      )}
-      {!compact && <DeviceStatus />}
+      {!canVibrate && <p>{t('device.noHaptics')}</p>}
+      <DeviceStatus />
     </div>
   );
 }
@@ -41,16 +28,8 @@ export function DeviceControls({ compact = false }: { readonly compact?: boolean
 export function DeviceStatus() {
   const device = useDeviceFeedback();
   if (!device?.coarse) return null;
-  const { reduced, status } = device;
-  const message = reduced
-    ? t('device.reduced')
-    : status === 'denied'
-      ? t('device.denied')
-      : status === 'unavailable'
-        ? t('device.unavailable')
-        : status === 'waiting'
-          ? t('device.waiting')
-          : null;
+  const { status } = device;
+  const message = status === 'denied' ? t('device.denied') : status === 'unavailable' ? t('device.unavailable') : null;
   return message ? (
     <p className={styles.deviceStatus} role="status">
       {message}

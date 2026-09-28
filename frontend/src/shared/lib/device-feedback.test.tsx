@@ -1,4 +1,5 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { StrictMode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DeviceFeedbackProvider, useDeviceFeedback } from './device-feedback';
 
@@ -7,7 +8,7 @@ function Probe() {
   device = useDeviceFeedback()!;
   return (
     <>
-      <button onClick={() => void device.toggleTilt()}>Tilt</button>
+      <button>Interact with page</button>
       <button onClick={() => device.toggleHaptics()}>Haptics</button>
       <button onClick={() => device.pulse('success')}>Success</button>
       <output>{device.status}</output>
@@ -22,6 +23,17 @@ const mediaListeners = new Set<() => void>();
 let reduceMotion = false;
 const permission = vi.fn();
 const vibrate = vi.fn();
+const mount = async (strict = false) => {
+  await act(async () => {
+    const app = (
+      <DeviceFeedbackProvider>
+        <Probe />
+      </DeviceFeedbackProvider>
+    );
+    render(strict ? <StrictMode>{app}</StrictMode> : app);
+  });
+};
+
 beforeEach(() => {
   reduceMotion = false;
   mediaListeners.clear();
@@ -38,11 +50,6 @@ beforeEach(() => {
     })),
   );
   Object.defineProperty(navigator, 'vibrate', { configurable: true, value: vibrate });
-  render(
-    <DeviceFeedbackProvider>
-      <Probe />
-    </DeviceFeedbackProvider>,
-  );
 });
 afterEach(() => {
   cleanup();
@@ -50,44 +57,62 @@ afterEach(() => {
   vi.restoreAllMocks();
   vi.useRealTimers();
 });
-const enable = async () => {
-  await act(async () => {
-    fireEvent.click(screen.getByText('Tilt'));
-  });
-};
 
-describe('device feedback lifecycle', () => {
-  it('requests permission only after a click, calibrates and stops on disable', async () => {
-    expect(permission).not.toHaveBeenCalled();
-    await enable();
+describe('automatic device feedback', () => {
+  it('requests access on page load, calibrates, and tracks tilt without a switch', async () => {
+    await mount();
     expect(permission).toHaveBeenCalledTimes(1);
+    expect(device.enabled).toBe(true);
     orient(45, 5);
     expect(device.status).toBe('active');
     expect(device.x.get()).toBe(0);
     orient(55, 15);
     expect(device.x.get()).toBe(0.5);
     expect(device.y.get()).toBe(0.5);
-    await enable();
-    orient(70, 25);
-    expect(device.x.get()).toBe(0);
-    expect(device.status).toBe('off');
+  });
+  it('requests permission once in Strict Mode', async () => {
+    await mount(true);
+    expect(permission).toHaveBeenCalledTimes(1);
+    expect(device.enabled).toBe(true);
+  });
+  it('starts on load when the browser has no explicit permission method', async () => {
+    vi.stubGlobal('DeviceOrientationEvent', class {});
+    await mount();
+    expect(device.enabled).toBe(true);
+    orient(40, 0);
+    orient(50, 10);
+    expect(device.x.get()).toBe(0.5);
+  });
+  it('retries the permission prompt on the first page click when activation is required', async () => {
+    permission.mockRejectedValueOnce(new DOMException('Gesture required', 'NotAllowedError'));
+    await mount();
+    expect(device.enabled).toBe(false);
+    expect(permission).toHaveBeenCalledTimes(1);
+    await act(async () => {
+      fireEvent.click(screen.getByText('Interact with page'));
+    });
+    expect(permission).toHaveBeenCalledTimes(2);
+    expect(device.enabled).toBe(true);
+    fireEvent.click(screen.getByText('Interact with page'));
+    expect(permission).toHaveBeenCalledTimes(2);
   });
   it('reports denied permission and never starts tracking', async () => {
     permission.mockResolvedValue('denied');
-    await enable();
+    await mount();
     orient(10, 10);
     expect(device.status).toBe('denied');
     expect(device.enabled).toBe(false);
   });
   it('reports a sensor that sends no valid readings', async () => {
     vi.useFakeTimers();
-    await enable();
+    await mount();
     orient(null, null);
     act(() => vi.advanceTimersByTime(4000));
     expect(device.status).toBe('unavailable');
     expect(device.enabled).toBe(false);
   });
-  it('plays a success rhythm once and honors the off switch', () => {
+  it('plays a success rhythm once and honors the off switch for haptics', async () => {
+    await mount();
     fireEvent.click(screen.getByText('Success'));
     fireEvent.click(screen.getByText('Success'));
     expect(vibrate).toHaveBeenCalledWith([12, 45, 24]);
@@ -98,7 +123,7 @@ describe('device feedback lifecycle', () => {
     expect(vibrate).not.toHaveBeenCalled();
   });
   it('pauses while hidden and recalibrates on return', async () => {
-    await enable();
+    await mount();
     orient(40, 0);
     orient(50, 10);
     const hidden = vi.spyOn(document, 'hidden', 'get').mockReturnValue(true);
@@ -113,7 +138,7 @@ describe('device feedback lifecycle', () => {
     expect(device.x.get()).toBe(0.5);
   });
   it('respects live Reduce Motion changes for both tilt and vibration', async () => {
-    await enable();
+    await mount();
     orient(40, 0);
     orient(50, 10);
     act(() => {

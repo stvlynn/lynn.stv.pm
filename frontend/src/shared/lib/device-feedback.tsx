@@ -5,7 +5,7 @@ import { normalizeTilt } from './tilt';
 
 const patterns = { light: [8], medium: [20], success: [12, 45, 24] } as const;
 type Feedback = keyof typeof patterns;
-type TiltStatus = 'off' | 'waiting' | 'active' | 'denied' | 'unavailable';
+type TiltStatus = 'waiting' | 'active' | 'denied' | 'unavailable';
 type OrientationAPI = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> };
 
 interface DeviceFeedback {
@@ -17,7 +17,6 @@ interface DeviceFeedback {
   reduced: boolean;
   haptics: boolean;
   canVibrate: boolean;
-  toggleTilt: () => Promise<void>;
   toggleHaptics: () => void;
   pulse: (feedback: Feedback) => void;
 }
@@ -32,10 +31,10 @@ export function DeviceFeedbackProvider({ children }: { readonly children: ReactN
   const coarse = useMediaQuery('(pointer: coarse)');
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [enabled, setEnabled] = useState(false);
-  const [status, setStatus] = useState<TiltStatus>('off');
+  const [status, setStatus] = useState<TiltStatus>('waiting');
   const [haptics, setHaptics] = useState(true);
   const [visible, setVisible] = useState(() => !document.hidden);
-  const requesting = useRef(false);
+  const initialPermission = useRef<Promise<string> | undefined>(undefined);
   const lastPulse = useRef(-Infinity);
   const canVibrate = typeof navigator.vibrate === 'function';
   const pulse = useCallback(
@@ -49,35 +48,49 @@ export function DeviceFeedbackProvider({ children }: { readonly children: ReactN
     [haptics, coarse, reduced, canVibrate],
   );
 
-  const toggleTilt = async () => {
-    if (requesting.current) return;
-    if (enabled) {
-      setEnabled(false);
-      setStatus('off');
-      return;
-    }
-    if (reduced || !coarse) return;
+  useEffect(() => {
+    if (!coarse || reduced) return;
     const api = window.DeviceOrientationEvent as OrientationAPI | undefined;
     if (!window.isSecureContext || !api) {
       setStatus('unavailable');
       return;
     }
-    requesting.current = true;
-    try {
-      if (api.requestPermission && (await api.requestPermission()) !== 'granted') {
-        setStatus('denied');
-        return;
+
+    let cancelled = false;
+    const request = async (event?: MouseEvent) => {
+      try {
+        const permission = await (event ? api.requestPermission!() : initialPermission.current!);
+        if (cancelled) return;
+        if (permission === 'granted') {
+          setStatus('waiting');
+          setEnabled(true);
+        } else {
+          setStatus('denied');
+        }
+      } catch (error) {
+        if (cancelled) return;
+        if (!event && error instanceof DOMException && error.name === 'NotAllowedError') {
+          // Browsers requiring activation defer the prompt until the first page click.
+          window.addEventListener('click', request, { capture: true, once: true });
+        } else {
+          console.error('Unable to request device orientation permission.', error);
+          setStatus(error instanceof DOMException && error.name === 'NotAllowedError' ? 'denied' : 'unavailable');
+        }
       }
+    };
+
+    if (api.requestPermission) {
+      initialPermission.current ??= api.requestPermission();
+      void request();
+    } else {
       setStatus('waiting');
       setEnabled(true);
-      pulse('medium');
-    } catch (error) {
-      console.error('Unable to request device orientation permission.', error);
-      setStatus('denied');
-    } finally {
-      requesting.current = false;
     }
-  };
+    return () => {
+      cancelled = true;
+      window.removeEventListener('click', request, true);
+    };
+  }, [coarse, reduced]);
 
   useEffect(() => {
     const update = () => setVisible(!document.hidden);
@@ -146,7 +159,6 @@ export function DeviceFeedbackProvider({ children }: { readonly children: ReactN
         reduced,
         haptics,
         canVibrate,
-        toggleTilt,
         toggleHaptics: () => {
           if (!haptics && canVibrate && !reduced) navigator.vibrate([...patterns.light]);
           setHaptics(!haptics);

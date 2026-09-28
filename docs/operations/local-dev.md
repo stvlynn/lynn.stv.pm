@@ -42,7 +42,23 @@ Requires `potrace` and Python with Pillow and svgpathtools:
 python3 frontend/scripts/lineart/vectorize.py
 ```
 
+Then regenerate the pen paths used by the entrance animation. This step needs Python with Pillow, numpy, scipy and scikit-image, plus the workspace Playwright dependency and installed Google Chrome:
+
+```sh
+python3 frontend/scripts/lineart/trace-strokes.py
+```
+
+The script renders the final vector ink and its silhouette, extracts the skeleton, and separates contour, structure and detail strokes before following connected lines. `frontend/scripts/lineart/drawing-order.json` is the editable art-direction map for facial features and accessories; update its polygons when the source changes. Nearby-stroke ordering applies only within a phase. It writes `frontend/src/shared/ui/blueprint/generated/front-strokes.ts`; do not edit this output by hand.
+
 Re-check `traitAnchors` in `frontend/src/shared/ui/blueprint/figure.ts` afterwards.
+
+For color artwork or silhouette changes, run the browser regression against the running dev server:
+
+```sh
+node frontend/scripts/lineart/verify-color.mjs
+```
+
+Set `CHARACTER_PREVIEW_URL` to test another local port. The check covers front hair/face fill, exterior exclusion, all four views and both themes. Visually inspect hair tips at full size and zoomed in as well.
 
 ## Common issues
 

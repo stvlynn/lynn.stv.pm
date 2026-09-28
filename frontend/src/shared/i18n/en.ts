@@ -30,13 +30,9 @@ export const en = {
     skip: 'Skip to content',
   },
   device: {
-    tilt: 'Enable tilt',
-    tiltOn: 'Tilt on',
     haptics: 'Touch feedback',
-    waiting: 'Hold steady to calibrate…',
     denied: 'Motion access was denied. Allow it in browser settings to use tilt.',
     unavailable: 'Tilt is unavailable. Use a phone with motion sensors over HTTPS.',
-    reduced: 'Tilt and touch feedback are paused by Reduce Motion.',
     noHaptics: 'This browser does not support vibration.',
   },
   theme: {

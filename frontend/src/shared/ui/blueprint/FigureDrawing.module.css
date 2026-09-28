@@ -16,13 +16,6 @@
   stroke-linecap: round;
 }
 
-.scanline {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 2;
-  filter: drop-shadow(0 0 6px var(--color-accent));
-}
-
 .construction {
   fill: none;
   stroke: var(--color-blueprint-line);

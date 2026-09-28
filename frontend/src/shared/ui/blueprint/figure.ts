@@ -1,3 +1,4 @@
+import { FRONT_STROKES } from './generated/front-strokes';
 import { LINEART_HEIGHT, LINEART_PATHS } from './lineart';
 
 /**
@@ -38,10 +39,20 @@ export interface TraitAnchor {
   readonly side: CalloutSide;
 }
 
+export type DrawingPhase = 'contour' | 'structure' | 'details';
+
+export interface PenStroke {
+  readonly phase: DrawingPhase;
+  readonly d: string;
+  readonly width: number;
+  readonly length: number;
+}
+
 export interface FigureGeometry {
   readonly id: string;
   readonly paths: readonly string[];
   readonly glasses: readonly string[];
+  readonly penStrokes?: readonly PenStroke[];
   readonly anchors: Readonly<Record<string, TraitAnchor>>;
   readonly headTop: number;
   readonly chin: number;
@@ -77,6 +88,7 @@ export const traitAnchors: Readonly<Record<string, TraitAnchor>> = {
 
 export const frontFigure: FigureGeometry = {
   id: 'front',
+  penStrokes: FRONT_STROKES,
   paths: LINEART_PATHS,
   glasses: GLASSES_PATHS,
   anchors: traitAnchors,
